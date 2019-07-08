@@ -2,8 +2,15 @@ package senac.finance.models;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FinanceDB extends SQLiteOpenHelper {
 
@@ -11,7 +18,7 @@ public class FinanceDB extends SQLiteOpenHelper {
     private static final int VERSAO = 1;
 
     public FinanceDB(Context context) {
-        super(context, NOME_BANCO,null,VERSAO);
+        super(context, NOME_BANCO, null, VERSAO);
     }
 
     @Override
@@ -21,7 +28,7 @@ public class FinanceDB extends SQLiteOpenHelper {
                 + "dia text,"
                 + "tipo text,"
                 + "valor real"
-                +")";
+                + ")";
         sqLiteDatabase.execSQL(sql);
     }
 
@@ -31,23 +38,47 @@ public class FinanceDB extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public boolean insert(Finance finance){
+    public boolean insert(Finance finance) {
         ContentValues values;
         long resultado;
 
         SQLiteDatabase db = this.getWritableDatabase();
         values = new ContentValues();
-        values.put("dia", finance.getDia().toString());
+        values.put("dia", finance.getDia());
         values.put("tipo", finance.getTipo());
         values.put("valor", finance.getValor());
 
         resultado = db.insert("TB_FINANCE", null, values);
         db.close();
 
-        if (resultado ==-1) {
+        if (resultado == -1) {
+            Log.e("FinanceDB", "Erro ao inserir Finança");
             return false;
         } else {
             return true;
         }
+    }
+
+    public List<Finance> select() {
+        Cursor cursor;
+        String[] campos = {"id", "dia", "tipo", "valor"};
+        SQLiteDatabase db = this.getReadableDatabase();
+        cursor = db.query("TB_FINANCE", campos, null, null,
+                null, null, null, null);
+
+        List<Finance> finances = new ArrayList<>();
+
+        if (cursor != null) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                finances.add(new Finance(
+                        cursor.getInt(cursor.getColumnIndex("id")),
+                        cursor.getString(cursor.getColumnIndex("dia")),
+                        cursor.getString(cursor.getColumnIndex("tipo")),
+                        cursor.getDouble(cursor.getColumnIndex("valor"))
+                ));
+            }
+        }
+        db.close();
+        return finances;
     }
 }

@@ -1,31 +1,27 @@
 package senac.finance.models;
 
-import android.content.Context;
-
-import java.time.LocalDate;
-
 public class Finance {
 
-    private LocalDate dia;
+    private int id;
+    private String dia;
     private String tipo;
     private Double valor;
-    private FinanceDB financeDB;
 
-    public Finance(Context context) {
-        this.financeDB = new FinanceDB(context);
+    public Finance() {
     }
 
-    public Finance(LocalDate dia, String tipo, Double valor) {
+    public Finance(int id, String dia, String tipo, Double valor) {
+        this.id = id;
         this.dia = dia;
         this.tipo = tipo;
         this.valor = valor;
     }
 
-    public boolean inserir() {
-        return financeDB.insert(this);
+    public int getId() {
+        return id;
     }
 
-    public LocalDate getDia() {
+    public String getDia() {
         return dia;
     }
 
