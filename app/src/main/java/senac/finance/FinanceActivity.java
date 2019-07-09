@@ -8,10 +8,14 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RadioButton;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import senac.finance.models.Finance;
 
@@ -36,12 +40,22 @@ public class FinanceActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //String calend = dia
+                try {
+                    Date calend = new Date(dia.getDate());
+                    String diaSelecionado = new SimpleDateFormat("yyyy-MM-dd").format(calend);
 
-                //Finance finance = new Finance(0);
+                    String tipoSelec = tipo.isChecked() ? "Receita" : "Despesa";
 
+                    Double valorSelec = Double.parseDouble(valor.getText().toString());
 
-               // MainActivity.financeDB.insert(finance);
+                    Finance finance = new Finance(0, diaSelecionado, tipoSelec, valorSelec);
+
+                    if (MainActivity.financeDB.insert(finance)){
+                        finish();
+                    }
+                } catch (Exception ex){
+                    Log.e("FinanceActivity", ex.getMessage());
+                }
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

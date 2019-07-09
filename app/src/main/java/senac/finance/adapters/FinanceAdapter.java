@@ -51,7 +51,7 @@ public class FinanceAdapter extends RecyclerView.Adapter {
         viewHolder.dia.setText(finance.getDia());
         viewHolder.valor.setText(d.format(finance.getValor()));
 
-        if (finance.getTipo() == "Receita"){
+        if (finance.getTipo().equals("Receita")){
             viewHolder.valor.setTextColor(Color.GREEN);
         } else {
             viewHolder.valor.setTextColor(Color.RED);

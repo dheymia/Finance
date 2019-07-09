@@ -16,7 +16,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import senac.finance.adapters.FinanceAdapter;
+import senac.finance.models.Finance;
 import senac.finance.models.FinanceDB;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,21 +34,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        if (financeDB != null) {
+        if (financeDB == null) {
             financeDB = new FinanceDB(this);
         }
 
         recyclerView = findViewById(R.id.listFinances);
 
-        RecyclerView.LayoutManager layout = new LinearLayoutManager(getBaseContext(),
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(this,
                 RecyclerView.VERTICAL, false);
 
         recyclerView.addItemDecoration(
-                new DividerItemDecoration(getBaseContext(), DividerItemDecoration.VERTICAL));
+                new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
 
         recyclerView.setLayoutManager(layout);
 
-        recyclerView.setAdapter(new FinanceAdapter(financeDB.select(), getBaseContext()));
+        recyclerView.setAdapter(new FinanceAdapter(financeDB.select(), this));
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(novaFinance);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        recyclerView.setAdapter(new FinanceAdapter(financeDB.select(), this));
     }
 
     @Override
