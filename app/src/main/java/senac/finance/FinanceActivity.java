@@ -9,8 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.CalendarView;
+import android.widget.EditText;
+import android.widget.RadioButton;
+
+import senac.finance.models.Finance;
 
 public class FinanceActivity extends AppCompatActivity {
+
+    CalendarView dia;
+    RadioButton tipo;
+    EditText valor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +28,20 @@ public class FinanceActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        dia = findViewById(R.id.calendarDia);
+        tipo = findViewById(R.id.rbReceita);
+        valor = findViewById(R.id.txtValor);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //String calend = dia
+
+                //Finance finance = new Finance(0);
+
+
+               // MainActivity.financeDB.insert(finance);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

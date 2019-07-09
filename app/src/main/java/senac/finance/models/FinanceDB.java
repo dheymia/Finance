@@ -10,6 +10,7 @@ import android.util.Log;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class FinanceDB extends SQLiteOpenHelper {
@@ -66,7 +67,7 @@ public class FinanceDB extends SQLiteOpenHelper {
         cursor = db.query("TB_FINANCE", campos, null, null,
                 null, null, null, null);
 
-        List<Finance> finances = new ArrayList<>();
+        List<Finance> finances = new LinkedList<>();
 
         if (cursor != null) {
             for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
