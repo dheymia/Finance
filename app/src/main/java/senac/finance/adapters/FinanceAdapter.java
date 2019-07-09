@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import senac.finance.R;
@@ -45,10 +48,17 @@ public class FinanceAdapter extends RecyclerView.Adapter {
 
         Finance finance = financeList.get(position);
 
+        Date diaSelecionado = null;
+        try {
+            diaSelecionado = new SimpleDateFormat("yyyy-MM-dd").parse(finance.getDia());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         String formato = "R$ #,##0.00";
         DecimalFormat d = new DecimalFormat(formato);
 
-        viewHolder.dia.setText(finance.getDia());
+        viewHolder.dia.setText(new SimpleDateFormat("dd/MM/yyyy").format(diaSelecionado));
         viewHolder.valor.setText(d.format(finance.getValor()));
 
         if (finance.getTipo().equals("Receita")){
