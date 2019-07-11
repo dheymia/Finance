@@ -13,15 +13,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#f0cde0"
+            android:text="@string/data" />
+
         <CalendarView
             android:id="@+id/calendarDia"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background=" #f7e6ef" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#f0cde0"
+            android:text="@string/tipo" />
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background=" #f7e6ef"
             android:orientation="horizontal">
 
             <RadioButton
@@ -40,13 +65,27 @@
 
         </RadioGroup>
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#f0cde0"
+            android:text="@string/valor" />
+
         <EditText
             android:id="@+id/txtValor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:background=" #f7e6ef"
             android:ems="10"
-            android:inputType="numberDecimal" />
+            android:hint="@string/dicavalor"
+            android:inputType="numberDecimal"
+            android:textSize="24sp" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

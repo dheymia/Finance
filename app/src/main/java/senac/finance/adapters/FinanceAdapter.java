@@ -2,6 +2,7 @@ package senac.finance.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import senac.finance.MainActivity;
 import senac.finance.R;
 import senac.finance.models.Finance;
+import senac.finance.models.FinanceDB;
+
+import static java.nio.file.Files.delete;
 
 public class FinanceAdapter extends RecyclerView.Adapter {
 
@@ -43,7 +48,7 @@ public class FinanceAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         FinanceViewHolder viewHolder = (FinanceViewHolder) holder;
 
         Finance finance = financeList.get(position);
@@ -60,16 +65,35 @@ public class FinanceAdapter extends RecyclerView.Adapter {
 
         viewHolder.dia.setText(new SimpleDateFormat("dd/MM/yyyy").format(diaSelecionado));
         viewHolder.valor.setText(d.format(finance.getValor()));
+        viewHolder.tipo.setImageResource(finance.getFoto());
+        viewHolder.transacao.setText(finance.getTipo());
+        viewHolder.excluir.setOnClickListener(view -> removerItem(position));
 
         if (finance.getTipo().equals("Receita")){
-            viewHolder.valor.setTextColor(Color.GREEN);
+            viewHolder.valor.setTextColor(Color.rgb(104,133,207));
+            viewHolder.item.setBackgroundColor(Color.rgb(239,242,250));
+            viewHolder.transacao.setTextColor(Color.rgb(104,133,207));
+            viewHolder.dia.setTextColor(Color.rgb(104,133,207));
         } else {
-            viewHolder.valor.setTextColor(Color.RED);
+            viewHolder.valor.setTextColor(Color.rgb(182,5,102));
+            viewHolder.item.setBackgroundColor(Color.rgb(247,230,239));
+            viewHolder.transacao.setTextColor(Color.rgb(182,5,102));
+            viewHolder.dia.setTextColor(Color.rgb(182,5,102));
+
         }
+
     }
 
     @Override
     public int getItemCount() {
         return financeList.size();
+    }
+
+    private void removerItem(int position) {
+        financeList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, financeList.size());
+
+
     }
 }

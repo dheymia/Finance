@@ -1,11 +1,14 @@
 package senac.finance.models;
 
+import senac.finance.R;
+
 public class Finance {
 
     private int id;
     private String dia;
     private String tipo;
     private Double valor;
+    int foto;
 
     public Finance() {
     }
@@ -32,4 +35,18 @@ public class Finance {
     public Double getValor() {
         return valor;
     }
+
+    public int getFoto() {
+        switch (tipo){
+            case "Receita":
+                foto = R.drawable.receita;
+                break;
+            case "Despesa":
+                foto = R.drawable.despesa;
+                break;
+        }
+        return foto;
+    }
+
 }
+

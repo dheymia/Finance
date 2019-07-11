@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 RecyclerView.VERTICAL, false);
 
         recyclerView.addItemDecoration(
-                new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL));
+                new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         recyclerView.setLayoutManager(layout);
 
@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent configuracoes = new Intent(getBaseContext(), SettingsActivity.class);
+            startActivity(configuracoes);
         }
 
         return super.onOptionsItemSelected(item);

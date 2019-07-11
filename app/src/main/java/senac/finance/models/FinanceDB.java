@@ -82,4 +82,21 @@ public class FinanceDB extends SQLiteOpenHelper {
         db.close();
         return finances;
     }
+
+    public void delete(int id){
+        String where = "id =" + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete("TB_FINANCE", where,null);
+        db.close();
+    }
+
+    public long getId(int position) {
+        String query = "SELECT _id" + " FROM " + "TB_FINANCE";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToPosition(position);
+        long id = cursor.getLong(cursor.getColumnIndex("_id"));
+        cursor.close();
+        return id;
+    }
 }
