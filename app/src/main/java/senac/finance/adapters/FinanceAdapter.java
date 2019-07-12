@@ -1,6 +1,8 @@
 package senac.finance.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -51,7 +53,7 @@ public class FinanceAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         FinanceViewHolder viewHolder = (FinanceViewHolder) holder;
 
-        Finance finance = financeList.get(position);
+        final Finance finance = financeList.get(position);
 
         Date diaSelecionado = null;
         try {
@@ -67,7 +69,28 @@ public class FinanceAdapter extends RecyclerView.Adapter {
         viewHolder.valor.setText(d.format(finance.getValor()));
         viewHolder.tipo.setImageResource(finance.getFoto());
         viewHolder.transacao.setText(finance.getTipo());
-        viewHolder.excluir.setOnClickListener(view -> removerItem(position));
+        viewHolder.excluir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder
+                        .setMessage("Deseja excluir este registro?")
+                        .setPositiveButton("Sim",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                MainActivity.financeDB.delete(finance.getId());
+                                removerItem(position);
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();            }
+        });
 
         if (finance.getTipo().equals("Receita")){
             viewHolder.valor.setTextColor(Color.rgb(104,133,207));
