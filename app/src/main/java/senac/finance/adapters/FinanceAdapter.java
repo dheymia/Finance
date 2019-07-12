@@ -91,6 +91,28 @@ public class FinanceAdapter extends RecyclerView.Adapter {
                         })
                         .show();            }
         });
+        viewHolder.editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                builder
+                        .setMessage("Deseja editar este registro?")
+                        .setPositiveButton("Sim",  new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                //falta código atualizar DB
+                                updateItem(position);
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();            }
+        });
 
         if (finance.getTipo().equals("Receita")){
             viewHolder.valor.setTextColor(Color.rgb(104,133,207));
@@ -117,6 +139,9 @@ public class FinanceAdapter extends RecyclerView.Adapter {
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, financeList.size());
 
-
+    }
+    private void updateItem(int position) {
+        Finance finance = financeList.get(position);
+        notifyItemChanged(position);
     }
 }

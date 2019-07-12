@@ -90,13 +90,24 @@ public class FinanceDB extends SQLiteOpenHelper {
         db.close();
     }
 
-    public long getId(int position) {
-        String query = "SELECT _id" + " FROM " + "TB_FINANCE";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
-        cursor.moveToPosition(position);
-        long id = cursor.getLong(cursor.getColumnIndex("_id"));
-        cursor.close();
-        return id;
+    public boolean update(Finance finance){
+        ContentValues values;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        values = new ContentValues();
+        values.put("dia", finance.getDia());
+        values.put("tipo", finance.getTipo());
+        values.put("valor", finance.getValor());
+
+        int resultado = db.update("TB_FINANCE",values,"id = " + finance.getId(),null);
+        db.close();
+
+        if (resultado == -1) {
+            Log.e("FinanceDB", "Erro ao atualizar Finança");
+            return false;
+        } else {
+            return true;
+        }
     }
 }
