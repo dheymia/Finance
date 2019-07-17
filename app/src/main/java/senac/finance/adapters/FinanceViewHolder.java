@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import senac.finance.R;
 
+import static senac.finance.adapters.FinanceAdapter.mOnItemClickListener;
+
 public class FinanceViewHolder extends RecyclerView.ViewHolder {
 
     final ImageView tipo;
@@ -31,5 +33,8 @@ public class FinanceViewHolder extends RecyclerView.ViewHolder {
         excluir = itemView.findViewById(R.id.imgExcluir);
         item = itemView.findViewById(R.id.bcItem);
         transacao = itemView.findViewById(R.id.txtTipo);
+
+        itemView.setTag(this);
+        itemView.setOnClickListener(mOnItemClickListener);
     }
 }

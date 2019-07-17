@@ -65,7 +65,7 @@ public class FinanceDB extends SQLiteOpenHelper {
         String[] campos = {"id", "dia", "tipo", "valor"};
         SQLiteDatabase db = this.getReadableDatabase();
         cursor = db.query("TB_FINANCE", campos, null, null,
-                null, null, null, null);
+                null, null, null);
 
         List<Finance> finances = new LinkedList<>();
 
@@ -83,11 +83,27 @@ public class FinanceDB extends SQLiteOpenHelper {
         return finances;
     }
 
-    public void delete(int id){
-        String where = "id =" + id;
+    public List<Finance> select(String data) {
+        Cursor cursor;
+        String[] campos = {"id", "dia", "tipo", "valor"};
         SQLiteDatabase db = this.getReadableDatabase();
-        db.delete("TB_FINANCE", where,null);
+        cursor = db.query("TB_FINANCE", campos, "dia = ?",
+                new String[]{data}, null, null, null, null);
+
+        List<Finance> finances = new LinkedList<>();
+
+        if (cursor != null) {
+            for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+                finances.add(new Finance(
+                        cursor.getInt(cursor.getColumnIndex("id")),
+                        cursor.getString(cursor.getColumnIndex("dia")),
+                        cursor.getString(cursor.getColumnIndex("tipo")),
+                        cursor.getDouble(cursor.getColumnIndex("valor"))
+                ));
+            }
+        }
         db.close();
+        return finances;
     }
 
     public boolean update(Finance finance){
@@ -109,5 +125,12 @@ public class FinanceDB extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    public void delete(int id) {
+        String where = "id =" + id;
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete("TB_FINANCE", where, null);
+        db.close();
     }
 }
